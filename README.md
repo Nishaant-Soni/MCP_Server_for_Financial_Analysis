@@ -19,7 +19,7 @@ This project is a **Model Context Protocol (MCP) server** designed to enable LLM
 ## Installation
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/Nishaant-Soni MCP_Server_for_Financial_Analysis.git
+   git clone https://github.com/Nishaant-Soni/MCP_Server_for_Financial_Analysis.git
    cd <your-repo-folder>
    ```
 2. **Set up a Python virtual environment**
