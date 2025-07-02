@@ -46,9 +46,13 @@ def calculate_technical_indicators(price_data: list, indicator: str, window: int
             result['ema'] = prices.ewm(span=window, adjust=False).mean().tolist()
         elif indicator == 'rsi':
             delta = prices.diff()
-            gain = (delta.where(delta > 0, 0)).rolling(window=window).mean()
-            loss = (-delta.where(delta < 0, 0)).rolling(window=window).mean()
-            rs = gain / loss
+            gain = delta.where(delta > 0, 0)
+            loss = (-delta.where(delta < 0, 0))
+            # Use Wilder's smoothing (exponential moving average with alpha = 1/window)
+            alpha = 1.0 / window
+            avg_gain = gain.ewm(alpha=alpha, adjust=False).mean()
+            avg_loss = loss.ewm(alpha=alpha, adjust=False).mean()
+            rs = avg_gain / avg_loss
             rsi = 100 - (100 / (1 + rs))
             result['rsi'] = rsi.tolist()
         elif indicator == 'macd':
