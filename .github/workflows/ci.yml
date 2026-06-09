@@ -24,17 +24,13 @@ jobs:
           python-version: "3.12"
 
       - name: Install dependencies
-        working-directory: mcp-server-trader
         run: uv sync --dev
 
       - name: Lint (ruff)
-        working-directory: mcp-server-trader
         run: uv run ruff check .
 
       - name: Format check (ruff)
-        working-directory: mcp-server-trader
         run: uv run ruff format --check .
 
       - name: Import smoke test
-        working-directory: mcp-server-trader
         run: uv run python -c "import main; print('All imports OK')"
