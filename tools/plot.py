@@ -3,13 +3,19 @@ from utils.visualization import (
     plot_price_chart,
     plot_financial_metric,
     plot_comparison_chart,
-    plot_trading_opportunities
+    plot_trading_opportunities,
 )
 
+
 @mcp.tool()
-def mcp_plot_price_chart(prices: list, chart_type: str = 'line', title: str = 'Price Chart', filename: str = None) -> dict:
+def mcp_plot_price_chart(
+    prices: list,
+    chart_type: str = "line",
+    title: str = "Price Chart",
+    filename: str = None,
+) -> dict:
     """
-    Generates a price chart (line or candlestick) from OHLCV data. 
+    Generates a price chart (line or candlestick) from OHLCV data.
     Args:
         prices: List of dicts with keys 'date', 'open', 'high', 'low', 'close', 'volume'.
         chart_type: 'line' or 'candlestick'.
@@ -20,8 +26,15 @@ def mcp_plot_price_chart(prices: list, chart_type: str = 'line', title: str = 'P
     """
     return plot_price_chart(prices, chart_type, title, filename)
 
+
 @mcp.tool()
-def mcp_plot_financial_metric(dates: list, values: list, metric_name: str = 'Metric', title: str = 'Financial Metric', filename: str = None) -> dict:
+def mcp_plot_financial_metric(
+    dates: list,
+    values: list,
+    metric_name: str = "Metric",
+    title: str = "Financial Metric",
+    filename: str = None,
+) -> dict:
     """
     Plots a financial metric over time.
     Args:
@@ -35,8 +48,15 @@ def mcp_plot_financial_metric(dates: list, values: list, metric_name: str = 'Met
     """
     return plot_financial_metric(dates, values, metric_name, title, filename)
 
+
 @mcp.tool()
-def mcp_plot_comparison_chart(dates: list, series: dict, title: str = 'Comparison Chart', filename: str = None) -> dict:
+def mcp_plot_comparison_chart(
+    dates: list,
+    series: dict,
+    title: str = "Comparison Chart",
+    filename: str = None,
+    normalized: bool = False,
+) -> dict:
     """
     Plots a comparison chart for multiple tickers or financial metrics over time.
     Args:
@@ -44,13 +64,22 @@ def mcp_plot_comparison_chart(dates: list, series: dict, title: str = 'Compariso
         series: Dict where keys are labels and values are lists of values for each date.
         title: Chart title.
         filename: Optional filename to save the plot.
+        normalized: Set to true to rebase all series to 100 at the start date, making
+                    tickers with very different price levels (e.g. NVDA vs AMD) directly
+                    comparable. The Y-axis will read "Indexed Value (base = 100)".
     Returns:
         Dict with 'file_path' and 'base64' of the image.
     """
-    return plot_comparison_chart(dates, series, title, filename) 
+    return plot_comparison_chart(dates, series, title, filename, normalized)
+
 
 @mcp.tool()
-def mcp_plot_trading_opportunities(prices: list, short_window: int=9, long_window: int=21, title: str = 'Trading Opportunities') -> dict:
+def mcp_plot_trading_opportunities(
+    prices: list,
+    short_window: int = 9,
+    long_window: int = 21,
+    title: str = "Trading Opportunities",
+) -> dict:
     """
     Plots price data with trading signals/opportunities.
     Args:
@@ -58,7 +87,7 @@ def mcp_plot_trading_opportunities(prices: list, short_window: int=9, long_windo
         short_window: Short window for the short moving average. Default is 9.
         long_window: Long window for the long moving average. Default is 21.
         title: Chart title.
-    Returns:    
+    Returns:
         Dict with 'file_path' and 'base64' of the image.
     """
     return plot_trading_opportunities(prices, short_window, long_window, title)

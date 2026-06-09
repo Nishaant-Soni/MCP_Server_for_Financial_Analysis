@@ -2,8 +2,10 @@ from server import mcp
 from utils.calculate_metrics import (
     calculate_growth_rates,
     calculate_technical_indicators,
-    calculate_financial_metric
+    calculate_financial_metric,
+    backtest_strategy,
 )
+
 
 @mcp.tool()
 def mcp_calculate_growth_rates(series: list) -> dict:
@@ -16,18 +18,58 @@ def mcp_calculate_growth_rates(series: list) -> dict:
     """
     return calculate_growth_rates(series)
 
+
 @mcp.tool()
-def mcp_calculate_technical_indicators(price_data: list, indicator: str, window: int = 14) -> dict:
+def mcp_calculate_technical_indicators(
+    price_data: list, indicator: str, window: int = 14
+) -> dict:
     """
-    Calculates technical indicators (SMA, EMA, RSI, MACD, volatility) on stockprice data.
+    Calculates technical indicators on stock price data.
     Args:
-        price_data: List of closing prices ordered oldest to newest.
-        indicator: 'sma', 'ema', 'rsi', 'macd', 'volatility'
-        window: Window size for the indicator.
+        price_data: List of closing prices (numbers) OR list of OHLCV dicts with keys
+                    'open', 'high', 'low', 'close'. The OHLCV dict form is required for
+                    'atr' and 'stochastic'; either form works for all others.
+        indicator: One of:
+                   'sma'            – Simple Moving Average
+                   'ema'            – Exponential Moving Average
+                   'rsi'            – Relative Strength Index (Wilder's smoothing)
+                   'macd'           – MACD line + signal line
+                   'volatility'     – Rolling annualised volatility
+                   'bollinger_bands'– Upper / middle / lower bands (2-sigma)
+                   'atr'            – Average True Range (needs OHLCV dicts)
+                   'stochastic'     – Stochastic %K and %D (needs OHLCV dicts)
+        window: Lookback window (default 14).
     Returns:
-        Dict with indicator values.
+        Dict with indicator values as lists.
     """
     return calculate_technical_indicators(price_data, indicator, window)
+
+
+@mcp.tool()
+def mcp_backtest_strategy(
+    prices: list, short_window: int = 9, long_window: int = 21
+) -> dict:
+    """
+    Backtests a moving-average crossover strategy (Golden Cross / Death Cross) on historical prices.
+    Buy signal: short MA crosses above long MA. Sell signal: short MA crosses below long MA.
+    Args:
+        prices: List of OHLCV dicts with at least 'date' and 'close' keys.
+                Use retrieve_stock_data to obtain this data first.
+        short_window: Short MA period (default 9).
+        long_window:  Long MA period (default 21).
+    Returns:
+        Dict with:
+          total_return        – Strategy compound return over the period
+          buy_and_hold_return – Passive return over the same period
+          outperformance      – total_return minus buy_and_hold_return
+          num_trades          – Number of completed round-trip trades
+          win_rate            – Fraction of trades that were profitable
+          max_drawdown        – Worst peak-to-trough loss on the equity curve
+          sharpe_ratio        – Return / std-dev of per-trade returns (approximate)
+          trades              – List of individual buy/sell records with dates and P&L
+    """
+    return backtest_strategy(prices, short_window, long_window)
+
 
 @mcp.tool()
 def mcp_calculate_financial_metrics(financial_data: dict, indicator: str) -> dict:
