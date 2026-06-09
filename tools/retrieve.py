@@ -1,11 +1,11 @@
 from server import mcp
 from utils.retrieve_data import (
-    get_current_price,
     fetch_stock_data,
+    get_current_price,
     get_dividends,
+    get_financial_statements,
     get_splits,
     get_ticker_info,
-    get_financial_statements,
 )
 
 

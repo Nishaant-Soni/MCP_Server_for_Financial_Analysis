@@ -1,8 +1,8 @@
 from server import mcp
 from utils.visualization import (
-    plot_price_chart,
-    plot_financial_metric,
     plot_comparison_chart,
+    plot_financial_metric,
+    plot_price_chart,
     plot_trading_opportunities,
 )
 

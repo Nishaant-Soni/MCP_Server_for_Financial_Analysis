@@ -1,8 +1,10 @@
-import matplotlib.pyplot as plt
-import matplotlib.dates as mdates
 import base64
 from io import BytesIO
+
+import matplotlib.dates as mdates
+import matplotlib.pyplot as plt
 import pandas as pd
+
 from utils.calculate_metrics import calculate_trading_opportunities
 
 

@@ -11,3 +11,18 @@ dependencies = [
     "pandas>=2.3.0",
     "yfinance>=0.2.61",
 ]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.9.0",
+]
+
+[tool.ruff]
+line-length = 88
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]
+ignore = [
+    "E501",  # line too long — formatter handles this
+    "F841",  # local variable assigned but never used
+]
