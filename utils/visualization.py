@@ -1,6 +1,5 @@
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
-import os
 import base64
 from io import BytesIO
 import pandas as pd
