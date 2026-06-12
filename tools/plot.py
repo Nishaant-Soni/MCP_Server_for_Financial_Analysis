@@ -1,3 +1,5 @@
+from mcp.server.fastmcp import Image
+
 from server import mcp
 from utils.visualization import (
     plot_comparison_chart,
@@ -12,8 +14,8 @@ def mcp_plot_price_chart(
     prices: list,
     chart_type: str = "line",
     title: str = "Price Chart",
-    filename: str = None,
-) -> dict:
+    filename: str | None = None,
+) -> Image:
     """
     Generates a price chart (line or candlestick) from OHLCV data.
     Args:
@@ -22,7 +24,7 @@ def mcp_plot_price_chart(
         title: Chart title.
         filename: Optional filename to save the plot.
     Returns:
-        Dict with 'file_path' and 'base64' of the image.
+        An Image object (PNG) of the chart. The image is also saved to the data/ directory.
     """
     return plot_price_chart(prices, chart_type, title, filename)
 
@@ -33,8 +35,8 @@ def mcp_plot_financial_metric(
     values: list,
     metric_name: str = "Metric",
     title: str = "Financial Metric",
-    filename: str = None,
-) -> dict:
+    filename: str | None = None,
+) -> Image:
     """
     Plots a financial metric over time.
     Args:
@@ -44,7 +46,7 @@ def mcp_plot_financial_metric(
         title: Chart title.
         filename: Optional filename to save the plot.
     Returns:
-        Dict with 'file_path' and 'base64' of the image.
+        An Image object (PNG) of the chart. The image is also saved to the data/ directory.
     """
     return plot_financial_metric(dates, values, metric_name, title, filename)
 
@@ -54,9 +56,9 @@ def mcp_plot_comparison_chart(
     dates: list,
     series: dict,
     title: str = "Comparison Chart",
-    filename: str = None,
+    filename: str | None = None,
     normalized: bool = False,
-) -> dict:
+) -> Image:
     """
     Plots a comparison chart for multiple tickers or financial metrics over time.
     Args:
@@ -68,7 +70,7 @@ def mcp_plot_comparison_chart(
                     tickers with very different price levels (e.g. NVDA vs AMD) directly
                     comparable. The Y-axis will read "Indexed Value (base = 100)".
     Returns:
-        Dict with 'file_path' and 'base64' of the image.
+        An Image object (PNG) of the chart. The image is also saved to the data/ directory.
     """
     return plot_comparison_chart(dates, series, title, filename, normalized)
 
@@ -79,7 +81,7 @@ def mcp_plot_trading_opportunities(
     short_window: int = 9,
     long_window: int = 21,
     title: str = "Trading Opportunities",
-) -> dict:
+) -> Image:
     """
     Plots price data with trading signals/opportunities.
     Args:
@@ -88,6 +90,6 @@ def mcp_plot_trading_opportunities(
         long_window: Long window for the long moving average. Default is 21.
         title: Chart title.
     Returns:
-        Dict with 'file_path' and 'base64' of the image.
+        An Image object (PNG) of the chart. The image is also saved to the data/ directory.
     """
     return plot_trading_opportunities(prices, short_window, long_window, title)

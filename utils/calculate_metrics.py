@@ -110,7 +110,7 @@ def calculate_technical_indicators(
 
 
 def calculate_trading_opportunities(
-    prices: list, short_window: int, long_window: int
+    prices: pd.DataFrame, short_window: int, long_window: int
 ) -> pd.DataFrame:
     """
     Calculates trading opportunities from price data. Create signals based on crossovers:
