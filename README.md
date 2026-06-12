@@ -53,6 +53,8 @@ This project is a **Model Context Protocol (MCP) server** designed to enable LLM
 | `mcp_plot_comparison_chart` | Compare multiple tickers or metrics; supports normalization to a common base of 100 |
 | `mcp_plot_trading_opportunities` | Price chart overlaid with MA crossover buy/sell signals |
 
+> **Note:** All visualization tools automatically save charts to the `data/` directory and open them with your system's default image viewer (macOS, Linux, and Windows are supported).
+
 ## Installation
 1. **Clone the repository**
    ```bash
